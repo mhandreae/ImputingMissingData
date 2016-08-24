@@ -1,0 +1,28 @@
+---
+title: "TutorialImputingMissingData"
+output: pdf_document
+---
+
+```{r, global_options, echo=FALSE}
+# Clean workspace
+rm(list=ls())
+
+suppressWarnings(library(knitr)) # quiet starting knitr library
+
+## sets the root directory for code chunks to better organize the files in Rstudio
+# root.dir: (NULL) the root directory when evaluating code chunks; if NULL, the 
+# directory of the input document will be used:
+opts_knit$set(root.dir=normalizePath('../'))
+
+# set options for figures
+opts_chunk$set(fig.width=6, fig.height=4, fig.path='../Figures/',
+            echo=FALSE, warning=FALSE, message=FALSE)
+
+# set global controll flag to selectively run chunks 
+eval_everything=FALSE
+```
+
+# Tutorial on Missing Data Imputation
+
+We follow the tutorial on R packages for missing data imputation by  MANISH SARASWAT which can be found here:
+<https://www.analyticsvidhya.com/blog/2016/03/tutorial-powerful-packages-imputing-missing-values/>
