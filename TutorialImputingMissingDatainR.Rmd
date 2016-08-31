@@ -24,8 +24,31 @@ eval_everything=FALSE
 
 # Tutorial on Missing Data Imputation
 
-We follow the tutorial on R packages for missing data imputation by  MANISH SARASWAT which can be found here:
-<https://www.analyticsvidhya.com/blog/2016/03/tutorial-powerful-packages-imputing-missing-values/>
+We follow the tutorial on R packages for missing data imputation by  MANISH SARASWAT which can be found [here](https://www.analyticsvidhya.com/blog/2016/03/tutorial-powerful-packages-imputing-missing-values/), but discuss the mi package first:
+
+## mi
+
+[mi](http://www.stat.columbia.edu/~gelman/research/published/mipaper.pdf) is the package by Dr. Gelman, maintained bt Dr. Goodrich and uses predictive mean matching (pmm). predictive mean matching is explained well [here](https://www.google.com "Google's Homepage"), by  Paul Allsion on Statistical Horizon with statistical background and pitfalls, referencing also [(Morris 2014)](http://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-14-75).
+
+
+
+
+```{r libraries_mi}
+library(mi)
+library(missForest)
+```
+
+```{r seed_missing_data_mi}
+data("iris")
+
+# seed missing values ( 10% )
+iris.mis <- prodNA(iris, noNA = 0.1)
+summary(iris.mis)
+
+# imputing missing value with mi
+mi_data <- mi(iris.mis, seed = 335)
+summary(mi_data)
+``` 
 
 ## MICE Package
 
@@ -108,3 +131,46 @@ summary(poor_fit)
 The point estimates of the poor_fit regression summary (without imputation) differ from the regression coefficients based on the imputed data; the latter also have wider confidence bands expressing the increased uncertainty due to imputation.
 
 ## AMELIA package
+
+
+```{r libraries_Amelia}
+rm(list = setdiff(ls(), lsf.str())) # uses setdiff to identify all  objects that are NOT functions.
+# and remoes them
+# lsf.str() finds all functions 
+
+library(Amelia)
+library(missForest)
+```
+
+
+## Seed 10% missing values
+```{r generate_missing_Amelia}
+data("iris")
+iris.mis <- prodNA(iris, noNA = 0.1)
+summary(iris.mis)
+```
+
+## Specify columns and run amelia
+```{r run_Amelia}
+amelia_fit <- amelia(iris.mis, m=5, parallel = "multicore", noms = "Species")
+# access imputed outputs
+amelia_fit$imputations[[1]]
+# ...
+```
+
+## missForest package
+
+```{r missingForest}
+#missForest
+library(missForest)
+
+#load data
+data("iris")
+
+#seed 10% missing values
+iris.mis <- prodNA(iris, noNA = 0.1)
+summary(iris.mis)
+```
+
+## Hmisc
+another package discussed but which I did not explore so far.
